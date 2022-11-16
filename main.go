@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/fatih/color"
 	"os"
 	"time"
 )
@@ -32,6 +33,8 @@ func punch(text string) {
 	if err != nil {
 		return
 	}
+
+	color.Blue(finalText)
 }
 
 func main() {
