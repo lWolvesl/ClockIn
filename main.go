@@ -9,6 +9,9 @@ import (
 	"time"
 )
 
+// 打卡目录
+const path = "/Users/li/Downloads/punch/"
+
 func getTimeStr() string {
 	timeFormat := "2006-01-02 15:04:05.000"
 	now := time.Now()
@@ -17,7 +20,7 @@ func getTimeStr() string {
 
 func punch(text string) {
 	now := time.Now()
-	filename := "/Users/li/Downloads/punch/" + now.Format("2006-01-02") + ".out"
+	filename := path + now.Format("2006-01-02") + ".out"
 
 	fp, _ := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_RDWR, os.ModeAppend|os.ModePerm) // 读写方式打开
 
@@ -42,10 +45,10 @@ func punch(text string) {
 
 func punchHistory() {
 	now := time.Now()
-	filename := "/Users/li/Downloads/punch/" + now.Format("2006-01-02") + ".out"
+	filename := path + now.Format("2006-01-02") + ".out"
 
 	//2、逐行读取
-	file, err := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_RDWR, os.ModeAppend|os.ModePerm) //打开
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_RDONLY, os.ModePerm) //打开
 	if err != nil {
 		fmt.Println(err)
 		return
