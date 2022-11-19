@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"github.com/fatih/color"
+	"io"
 	"os"
 	"time"
 )
@@ -14,7 +17,7 @@ func getTimeStr() string {
 
 func punch(text string) {
 	now := time.Now()
-	filename := "./" + now.Format("2006-01-02") + ".out"
+	filename := "/Users/li/Downloads/punch/" + now.Format("2006-01-02") + ".out"
 
 	fp, _ := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_RDWR, os.ModeAppend|os.ModePerm) // 读写方式打开
 
@@ -37,6 +40,40 @@ func punch(text string) {
 	color.Blue(finalText)
 }
 
+func punchHistory() {
+	now := time.Now()
+	filename := "/Users/li/Downloads/punch/" + now.Format("2006-01-02") + ".out"
+
+	//2、逐行读取
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_RDWR, os.ModeAppend|os.ModePerm) //打开
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file) //关闭
+
+	line := bufio.NewReader(file)
+	for {
+		content, _, err := line.ReadLine()
+		if err == io.EOF {
+			break
+		}
+		text := string(content)
+		color.Blue(text)
+	}
+}
+
 func main() {
-	punch(os.Args[1])
+	switch len(os.Args) {
+	case 1:
+		punchHistory()
+	case 2:
+		punch(os.Args[1])
+
+	}
 }
